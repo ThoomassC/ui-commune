@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      # `--ignore-scripts` skips `prepare`, which would build the library
+      # before the sources it builds have been checked. The build runs below,
+      # on its own step, so a failure there is legible.
+      - run: npm ci --ignore-scripts
+
+      - name: Types
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      # The colour contract lives here. It recomputes every ratio the token
+      # sheet claims in its comments, on the three themes. This is the step
+      # that would have caught the six tokens drifting apart.
+      - name: Contrat de couleur et tests
+        run: npm test
+
+      - name: Build de la librairie
+        run: npm run build:lib
+
+      - name: Build de la charte
+        run: npm run build
