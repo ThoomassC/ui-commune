@@ -1,0 +1,94 @@
+/* =============================================================================
+   @thomascaron/ui — COUCHE 1 : PRIMITIVES
+
+   Les hexadécimaux nus, et rien d'autre. Aucun composant ne cite ce fichier ;
+   seule `roles.css` en a le droit. Une primitive ne connaît pas le thème : elle
+   est une couleur, pas un emploi.
+
+   NOMMAGE — le nombre est une mesure, pas un rang.
+   `--tc-<famille>-<L>` où <L> est la luminosité OKLab de la couleur, ×1000 et
+   arrondie. `--tc-teal-515` vaut #087487 parce que sa L vaut 0,515. Le contrat
+   le vérifie : renommer une primitive sans la remesurer fait échouer la suite.
+   Suffixe `-aNN` : la même couleur à l'alpha 0,NN.
+   ========================================================================== */
+
+:root {
+  /* --- MIST — les neutres. Le teal des actions, vidé de sa chroma.
+         Teintes tenues entre 211° et 220° : rien ne devient sale, et l'aplat
+         accent reste le seul champ saturé de l'écran. ---------------------- */
+  --tc-mist-961: #ebf4f6;
+  --tc-mist-936: #deedf0;
+  --tc-mist-928: #e0e9eb;
+  --tc-mist-894: #d5dee0;
+  --tc-mist-873: #ced7da;
+  --tc-mist-865: #b6dae3;
+  --tc-mist-813: #aac8d0;
+  --tc-mist-762: #9eb7bd;
+  --tc-mist-687: #8d9ea2;
+  --tc-mist-509: #59696d;
+  --tc-mist-427: #3e5359;
+  --tc-mist-375: #2b464c;
+  --tc-mist-334: #2f383b;
+  --tc-mist-324: #193940;
+  --tc-mist-302: #273032;
+  --tc-mist-232: #161f22;
+  --tc-mist-205: #0f191c;
+  --tc-mist-188: #0c1518;
+
+  /* --- TEAL — l'encre des actions. Teinte 213° à 217°. ------------------- */
+  --tc-teal-753: #78bbca;
+  --tc-teal-555: #208093;
+  --tc-teal-515: #087487;
+  --tc-teal-477: #00687b;
+  --tc-teal-473: #00677a;
+  --tc-teal-441: #005d6f;
+  --tc-teal-429: #0e5968;
+
+  /* --- COPPER — le décor. Tenu en opposition au teal : 179,3° en clair,
+         179,5° en sombre. ---------------------------------------------------- */
+  --tc-copper-671: #bf8576;
+  --tc-copper-425: #723e32;
+
+  /* --- Encres sémantiques. Le rouge n'est séparé du cuivre que de 11,3° de
+         teinte : c'est la LUMINOSITÉ qui porte la distinction, pas la teinte. */
+  --tc-red-793: #f2a3a3;
+  --tc-red-339: #66151a;
+  --tc-green-812: #88d6a4;
+  --tc-green-378: #0d4f2c;
+  --tc-amber-831: #e0c489;
+  --tc-amber-482: #7b5620;
+
+  /* --- Extrêmes. `citron-985` est l'anneau de focus : ni blanc ni jaune pur,
+         choisi pour tenir à la fois contre l'aplat accent et contre le noir. */
+  --tc-white: #ffffff;
+  --tc-black: #000000;
+  --tc-citron-985: #f6ffde;
+
+  /* --- Couches translucides. Une couche alpha n'a pas de luminosité propre :
+         elle en prend une en se composant. D'où le nommage par alpha seul. -- */
+
+  /* Teal à quatre alphas : lavis d'accent et son liseré. */
+  --tc-teal-a10: rgba(8, 116, 135, 0.1);
+  --tc-teal-a16: rgba(8, 116, 135, 0.16);
+  --tc-teal-a42: rgba(8, 116, 135, 0.42);
+  --tc-teal-a55: rgba(8, 116, 135, 0.55);
+
+  /* Ombre portée. Même encre dans les deux thèmes, deux alphas. */
+  --tc-soot-a30: rgba(4, 15, 19, 0.3);
+  --tc-soot-a50: rgba(4, 15, 19, 0.5);
+
+  /* Traits : encre sombre sur fond clair, voile clair sur fond sombre. */
+  --tc-shade-a14: rgba(7, 20, 23, 0.138);
+  --tc-shade-a16: rgba(7, 20, 23, 0.16);
+  --tc-veil-a12: rgba(225, 234, 236, 0.121);
+  --tc-veil-a16: rgba(225, 234, 236, 0.16);
+
+  /* Lavis sémantiques. 0,10 en clair, 0,14 en sombre : le thème sombre a plus
+     de course, et égaliser les deux raboterait son retour visuel. */
+  --tc-red-339-a10: rgba(102, 21, 26, 0.1);
+  --tc-green-378-a10: rgba(13, 79, 44, 0.1);
+  --tc-amber-482-a10: rgba(123, 86, 32, 0.1);
+  --tc-red-793-a14: rgba(242, 163, 163, 0.14);
+  --tc-green-812-a14: rgba(136, 214, 164, 0.14);
+  --tc-amber-831-a14: rgba(224, 196, 137, 0.14);
+}

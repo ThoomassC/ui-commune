@@ -1,0 +1,73 @@
+/* =============================================================================
+   @thomascaron/ui — la feuille de jetons, point d'entrée unique.
+
+   C'est le seul fichier qu'un projet consommateur importe :
+
+       import '@thomascaron/ui/tokens.css';
+
+   Il assemble les deux couches et pose la base minimale qui doit être vraie
+   partout : le sol, l'encre, la police, le double anneau de focus et la règle
+   de mouvement réduit. Rien d'autre — aucun style de composant ici, aucune
+   remise à zéro opinionée qui écraserait le CSS du projet hôte.
+   ========================================================================== */
+
+@import './primitives.css';
+@import './roles.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--site-background);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Le double anneau. L'un des deux tons contraste toujours avec le fond local,
+   quel qu'il soit — c'est tout l'intérêt de leur inversion entre les thèmes.
+
+   L'`outline` porte --focus-OUTER, et pas --focus-inner comme dans la recette
+   d'origine du portfolio. Raison mesurée : l'outline est peint AU-DESSUS du
+   box-shadow, donc à 2–4 px du bord il repeignait la bande extérieure en
+   couleur intérieure et il ne restait qu'UN pixel de --focus-outer, entre 4 et
+   5 px. Or l'anneau intérieur ne contraste avec rien d'autre que l'aplat
+   accent : 1,08:1 sur la carte, 1,16:1 sur le sol. Partout ailleurs que sur un
+   bouton primaire, le focus se réduisait donc à un filet de 1 px, qui disparaît
+   au premier arrondi de pixel. À 3 px, l'outline recouvre exactement la bande
+   du box-shadow extérieur : 2 px d'anneau intérieur, 3 px d'extérieur, comme
+   annoncé. L'outline reste par ailleurs le seul des deux que `forced-colors`
+   rende. */
+:focus-visible {
+  outline: 3px solid var(--focus-outer);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--focus-inner),
+    0 0 0 5px var(--focus-outer);
+}
+
+/* `prefers-reduced-motion` demande moins de MOUVEMENT, pas moins de RETOUR
+   D'INFORMATION. Couper toutes les transitions fait disparaître le fondu qui
+   confirme qu'un survol a été pris en compte : c'est une perte d'utilisabilité
+   offerte à quelqu'un qui n'avait rien demandé de tel. On restreint donc la
+   liste des propriétés animables au lieu de tout éteindre. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-property:
+      color, background-color, border-color, box-shadow, outline-color, text-decoration-color,
+      text-decoration-thickness !important;
+    transition-duration: var(--motion-color) !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

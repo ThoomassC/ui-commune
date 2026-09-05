@@ -1,0 +1,252 @@
+/* =============================================================================
+   @thomascaron/ui — COUCHE 2 : RÔLES
+
+   Un jeton nomme un RÔLE, jamais un emplacement. Cinq encres de texte, pas
+   douze cases par écran : un jeton nommé `--card-title-color` est une dette,
+   il fige un composant dans la palette.
+
+   Aucun hexadécimal ici. Toute valeur de couleur est un `var(--tc-…)` pris
+   dans `primitives.css` — le contrat le vérifie, fichier par fichier.
+
+   TROIS BLOCS DE THÈME, DANS CET ORDRE, ET PAS DEUX :
+     1. `:root` nu                                    — déclare TOUT, en entier
+     2. `@media (prefers-color-scheme: dark)` gardé   — l'OS, sans JavaScript
+     3. `:root[data-theme="dark"]`                    — le choix explicite
+
+   Les blocs 2 et 3 ne font que REDÉFINIR. Une couleur dont la seule
+   déclaration vit dans un `@media` ou un `[data-theme]` ne s'applique jamais
+   dans l'état non marqué : c'est le bug qui rend une marque invisible sur son
+   propre fond. Le contrat échoue si un jeton sombre manque au bloc clair.
+
+   Les ratios en commentaire sont recalculés en CI sur le support où l'encre vit
+   réellement. Un chiffre faux fait échouer la suite : ce ne sont pas des notes.
+   ========================================================================== */
+
+:root {
+  /* --- Espacement — grille de 4 px, huit pas. Aucune valeur hors liste.
+         Trois sorties d'échelle sont tolérées, et seulement trois : un clamp()
+         de rythme dont les DEUX bornes sont des pas nommés, une cible tactile,
+         un rayon de conteneur nommé. --------------------------------------- */
+  --space-1: 0.25rem; /*  4 px */
+  --space-2: 0.5rem; /*   8 px */
+  --space-3: 0.75rem; /* 12 px */
+  --space-4: 1rem; /*    16 px */
+  --space-5: 1.5rem; /*  24 px */
+  --space-6: 2rem; /*    32 px */
+  --space-7: 3rem; /*    48 px */
+  --space-8: 4rem; /*    64 px */
+
+  --section-space: clamp(var(--space-7), 8vw, var(--space-8));
+
+  /* --- Rayons — quatre. Le langage de formes s'arrête là. ---------------- */
+  --radius-sm: 0.625rem; /* 10 px */
+  --radius-md: 1rem; /*     16 px */
+  --radius-lg: 1.5rem; /*   24 px */
+  --radius-pill: 999px;
+
+  /* --- Cibles tactiles. Hors échelle d'espacement, et c'est légitime : ce
+         n'est pas de l'espacement, c'est une surface de doigt. ------------- */
+  --target-min: 44px; /*    contrôle en liste ou en navigation */
+  --target-button: 48px; /* bouton, plus une bordure en pilule */
+
+  /* --- Typographie — six pas fixes, deux fluides. Les rapports successifs
+         valent ~1,15 dans la moitié basse et ~1,20 dans la haute : l'échelle
+         n'est pas géométrique. Une taille ajoutée se calcule avec le ratio de
+         SA moitié. --------------------------------------------------------- */
+  --text-xs: 0.75rem; /*     12 px */
+  --text-sm: 0.875rem; /*    14 px */
+  --text-base: 1rem; /*      16 px */
+  --text-md: 1.1875rem; /*   19 px */
+  --text-lg: 1.4375rem; /*   23 px */
+  --text-xl: 1.75rem; /*     28 px */
+  --text-display-sm: clamp(1.5rem, 2.6vw, 2.125rem);
+  --text-display-md: clamp(1.875rem, 3.9vw, 3.25rem);
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-body: 1.6;
+  --leading-heading: 1.2;
+  --measure: 66ch; /* longueur de ligne bornée du texte courant */
+
+  /* Piles système. Une police propre, le jour où elle sera choisie, sera
+     auto-hébergée en woff2 : le harnais e2e de travels_in_world refuse toute
+     requête hors origine, y compris un simple lien `preconnect`. */
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* --- Mouvement — deux durées, et rien d'autre. ------------------------- */
+  --motion-color: 160ms; /* ce qui change de couleur */
+  --motion-move: 120ms; /*  ce qui se déplace */
+  --motion-ease: ease;
+
+  /* =========================== COULEUR — THÈME CLAIR ====================== */
+
+  /* Champs et surfaces. Le sol de référence est --site-background, mais ce
+     n'est jamais le pire cas : une encre se mesure sur le support composé où
+     elle vit vraiment. */
+  --site-background: var(--tc-mist-936); /* #deedf0 */
+  --surface: var(--tc-mist-961); /*         carte */
+  --panel-surface: var(--tc-mist-928); /*   champ de saisie, panneau au repos */
+  --panel-surface-hover: var(--tc-mist-894);
+  --panel-surface-active: var(--tc-mist-873);
+
+  /* Encres — cinq rôles, pas douze emplacements.
+     Plancher de ΔE OKLab 5 entre rôles voisins. Sans lui, résoudre chaque
+     encre isolément contre son seuil les fait converger sur la même
+     luminosité et tue la hiérarchie — erreur commise, puis corrigée. */
+  --text-strong: var(--tc-mist-324); /*  10,28:1 / sol */
+  --text-body: var(--tc-mist-375); /*     8,39:1 / sol */
+  --text-muted: var(--tc-mist-427); /*    6,76:1 / sol */
+  --text-accent: var(--tc-teal-429); /*   6,60:1 / sol */
+  --text-on-accent: var(--tc-white);
+
+  /* Le teal — l'encre. Monopole des actions et des états : boutons, liens,
+     focus, badges. Il reste lisible comme signal parce que le champ autour de
+     lui n'est pas de l'encre. */
+  --accent: var(--tc-teal-515); /*        blanc 5,44:1 */
+  --accent-hover: var(--tc-teal-477); /*  blanc 6,43:1 */
+  --accent-active: var(--tc-teal-441); /* blanc 7,51:1 */
+  --accent-quiet: var(--tc-teal-a10);
+  --accent-quiet-border: var(--tc-teal-a42);
+
+  /* Le cuivre — le décor et l'éditorial, JAMAIS un contrôle. Une couleur
+     chaude sur un bouton rompt le contrat et rend l'encre illisible comme
+     signal. Tenu à ≥ 0,08 OKLab L de l'accent : ici 0,090. */
+  --accent-secondary: var(--tc-copper-425); /* 7,13:1 / sol */
+
+  /* Traits */
+  --border-subtle: var(--tc-shade-a14); /* décoratif seul */
+  --control-border: var(--tc-mist-509); /*  4,77:1 / sol ; 3,19:1 pire cas composé */
+  --rule: var(--tc-shade-a16);
+
+  /* Sémantique — la couleur double toujours un mot ET un glyphe. */
+  --danger: var(--tc-red-339); /*   10,36:1 / sol ; 11,15:1 / carte */
+  --success: var(--tc-green-378); /* 8,05:1 / sol ;  8,66:1 / carte */
+  --warning: var(--tc-amber-482); /* 5,47:1 / sol ;  5,89:1 / carte */
+  --danger-quiet: var(--tc-red-339-a10);
+  --success-quiet: var(--tc-green-378-a10);
+  --warning-quiet: var(--tc-amber-482-a10);
+
+  /* Focus — deux anneaux dont les tons s'inversent entre les thèmes. Ce n'est
+     pas une symétrie décorative : c'est ce qui rend les trois contraintes
+     satisfaisables à la fois. L'anneau intérieur touche l'aplat accent,
+     l'extérieur touche la page — l'extérieur ne borde jamais l'accent.
+     C'est le focus qui a contraint le choix de l'accent, pas l'inverse. */
+  --focus-outer: var(--tc-black); /*     17,48:1 / sol */
+  --focus-inner: var(--tc-citron-985); /*  5,26:1 / aplat accent */
+
+  /* Élévation — quatre crans, et une règle de polarité.
+     En CLAIR, l'ombre porte tout : ΔE 20,6 contre le sol, tandis qu'un liseré
+     blanc plafonne à ΔE 4,0 même à alpha 1. Chaque cran a un liseré jumeau et
+     c'est le thème qui décide lequel des deux travaille. */
+  --shadow-ink: var(--tc-soot-a30);
+  --elevation-0: none;
+  --elevation-1: 0 0.125rem 0.375rem var(--shadow-ink);
+  --elevation-2: 0 0.5rem 1.25rem var(--shadow-ink);
+  --elevation-3: 0 1.5rem 3rem -0.75rem var(--shadow-ink);
+
+  color-scheme: light;
+}
+
+/* --- 2. La préférence système, servie sans une ligne de JavaScript.
+       Le garde `:not([data-theme="light"])` laisse gagner un choix explicite
+       de l'utilisateur. C'est la seule architecture compatible avec un site
+       entièrement prérendu. ------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --site-background: var(--tc-mist-205); /* #0f191c */
+    --surface: var(--tc-mist-188);
+    --panel-surface: var(--tc-mist-232);
+    --panel-surface-hover: var(--tc-mist-302);
+    --panel-surface-active: var(--tc-mist-334);
+
+    --text-strong: var(--tc-mist-865); /* 12,01:1 / sol */
+    --text-body: var(--tc-mist-813); /*   10,10:1 / sol */
+    --text-muted: var(--tc-mist-762); /*   8,47:1 / sol */
+    --text-accent: var(--tc-teal-753); /*  8,30:1 / sol */
+    --text-on-accent: var(--tc-white);
+
+    /* L'accent est la MÊME encre dans les deux thèmes ; seuls survol et appui
+       se déclinent. --accent-hover est le point le plus tendu de la palette :
+       4,59:1 contre le blanc, soit 0,09 de marge sur 4,5:1. Toute retouche du
+       survol sombre se remesure. */
+    --accent: var(--tc-teal-515); /*        blanc 5,44:1 */
+    --accent-hover: var(--tc-teal-555); /*  blanc 4,59:1 */
+    --accent-active: var(--tc-teal-473); /* blanc 6,52:1 */
+    --accent-quiet: var(--tc-teal-a16);
+    --accent-quiet-border: var(--tc-teal-a55);
+
+    --accent-secondary: var(--tc-copper-671); /* 5,81:1 / sol ; ΔL 0,156 */
+
+    --border-subtle: var(--tc-veil-a12);
+    --control-border: var(--tc-mist-687); /* 6,42:1 / sol ; 3,23:1 pire cas */
+    --rule: var(--tc-veil-a16);
+
+    --danger: var(--tc-red-793); /*    8,96:1 / sol ;  9,28:1 / carte */
+    --success: var(--tc-green-812); /* 10,37:1 / sol ; 10,74:1 / carte */
+    --warning: var(--tc-amber-831); /* 10,57:1 / sol ; 10,94:1 / carte */
+    --danger-quiet: var(--tc-red-793-a14);
+    --success-quiet: var(--tc-green-812-a14);
+    --warning-quiet: var(--tc-amber-831-a14);
+
+    --focus-outer: var(--tc-citron-985); /* 17,24:1 / sol */
+    --focus-inner: var(--tc-black); /*      3,86:1 / aplat accent */
+
+    /* En sombre la polarité s'inverse : l'ombre composée mesure ΔE 2,2 contre
+       le fond — sous le seuil de perceptibilité — et c'est le LISERÉ qui
+       détache, à ΔE 17,3. Une échelle d'ombre seule ne suffit jamais. */
+    --shadow-ink: var(--tc-soot-a50);
+
+    color-scheme: dark;
+  }
+}
+
+/* --- 3. Le choix explicite, qui doit gagner sur l'OS.
+       Duplique le bloc ci-dessus, volontairement : générer cette duplication
+       coûterait un outil de build à deux sites personnels. Le contrat vérifie
+       que les deux blocs sombres ne divergent jamais. --------------------- */
+:root[data-theme='dark'] {
+  --site-background: var(--tc-mist-205);
+  --surface: var(--tc-mist-188);
+  --panel-surface: var(--tc-mist-232);
+  --panel-surface-hover: var(--tc-mist-302);
+  --panel-surface-active: var(--tc-mist-334);
+
+  --text-strong: var(--tc-mist-865);
+  --text-body: var(--tc-mist-813);
+  --text-muted: var(--tc-mist-762);
+  --text-accent: var(--tc-teal-753);
+  --text-on-accent: var(--tc-white);
+
+  --accent: var(--tc-teal-515);
+  --accent-hover: var(--tc-teal-555);
+  --accent-active: var(--tc-teal-473);
+  --accent-quiet: var(--tc-teal-a16);
+  --accent-quiet-border: var(--tc-teal-a55);
+
+  --accent-secondary: var(--tc-copper-671);
+
+  --border-subtle: var(--tc-veil-a12);
+  --control-border: var(--tc-mist-687);
+  --rule: var(--tc-veil-a16);
+
+  --danger: var(--tc-red-793);
+  --success: var(--tc-green-812);
+  --warning: var(--tc-amber-831);
+  --danger-quiet: var(--tc-red-793-a14);
+  --success-quiet: var(--tc-green-812-a14);
+  --warning-quiet: var(--tc-amber-831-a14);
+
+  --focus-outer: var(--tc-citron-985);
+  --focus-inner: var(--tc-black);
+
+  --shadow-ink: var(--tc-soot-a50);
+
+  color-scheme: dark;
+}
