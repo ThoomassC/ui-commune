@@ -24,7 +24,7 @@ Ce dépôt est ce garde. Il publie, dans cet ordre de valeur :
 ## Installation
 
 ```bash
-npm i "@thomascaron/ui@github:ThoomassC/ui-commune#v0.1.0"
+npm i "@thomascaron/ui@github:ThoomassC/ui-commune#v0.2.0"
 ```
 
 Le paquet se compile à l'installation (`prepare`). Trois points d'entrée :
@@ -71,6 +71,17 @@ Une règle qu'on ne peut pas citer de mémoire n'est pas appliquée.
    ne contient que des succès est une charte qu'on n'a pas éprouvée.
 
 ## Le contrat teal & cuivre
+
+> **v0.2.0 — les sols clairs sont du papier.** `--site-background`, `--surface` et
+> les trois `--panel-surface*` viennent d'une famille `--tc-paper-*` chaude
+> (teintes 82°–86°) au lieu des `mist` froids. Chaque valeur est posée à la
+> **luminosité OKLab exacte** du `mist` qu'elle remplace, ce qui est la raison
+> pour laquelle aucun seuil ne bouge : les ratios ont perdu deux à cinq centièmes,
+> pas un rang. Les encres, elles, restent froides — c'est de l'encre sur du
+> papier, pas du papier teinté.
+>
+> Le thème sombre n'en a pas : une feuille éclairée par l'arrière n'existe pas, et
+> les `mist` sombres restent les sols de nuit.
 
 | Rôle             | Jeton                | Ce qu'il a le droit de faire                                 |
 | ---------------- | -------------------- | ------------------------------------------------------------ |

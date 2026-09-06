@@ -90,20 +90,24 @@
   /* Champs et surfaces. Le sol de référence est --site-background, mais ce
      n'est jamais le pire cas : une encre se mesure sur le support composé où
      elle vit vraiment. */
-  --site-background: var(--tc-mist-936); /* #deedf0 */
-  --surface: var(--tc-mist-961); /*         carte */
-  --panel-surface: var(--tc-mist-928); /*   champ de saisie, panneau au repos */
-  --panel-surface-hover: var(--tc-mist-894);
-  --panel-surface-active: var(--tc-mist-873);
+  /* --- Les sols sont du PAPIER depuis la v0.2.0, et les encres restent froides.
+         Chaque valeur est posée à la luminosité OKLab exacte du `mist` qu'elle
+         remplace, ce qui est la raison pour laquelle les ratios ci-dessous ont
+         bougé de deux à cinq CENTIÈMES et pas davantage. --------------------- */
+  --site-background: var(--tc-paper-936); /* #f2e9d6 */
+  --surface: var(--tc-paper-961); /*         carte */
+  --panel-surface: var(--tc-paper-928); /*   champ de saisie, panneau au repos */
+  --panel-surface-hover: var(--tc-paper-894);
+  --panel-surface-active: var(--tc-paper-873);
 
   /* Encres — cinq rôles, pas douze emplacements.
      Plancher de ΔE OKLab 5 entre rôles voisins. Sans lui, résoudre chaque
      encre isolément contre son seuil les fait converger sur la même
      luminosité et tue la hiérarchie — erreur commise, puis corrigée. */
-  --text-strong: var(--tc-mist-324); /*  10,28:1 / sol */
-  --text-body: var(--tc-mist-375); /*     8,39:1 / sol */
-  --text-muted: var(--tc-mist-427); /*    6,76:1 / sol */
-  --text-accent: var(--tc-teal-429); /*   6,60:1 / sol */
+  --text-strong: var(--tc-mist-324); /*  10,23:1 / sol */
+  --text-body: var(--tc-mist-375); /*     8,35:1 / sol */
+  --text-muted: var(--tc-mist-427); /*    6,73:1 / sol */
+  --text-accent: var(--tc-teal-429); /*   6,57:1 / sol */
   --text-on-accent: var(--tc-white);
 
   /* Le teal — l'encre. Monopole des actions et des états : boutons, liens,
@@ -118,17 +122,26 @@
   /* Le cuivre — le décor et l'éditorial, JAMAIS un contrôle. Une couleur
      chaude sur un bouton rompt le contrat et rend l'encre illisible comme
      signal. Tenu à ≥ 0,08 OKLab L de l'accent : ici 0,090. */
-  --accent-secondary: var(--tc-copper-425); /* 7,13:1 / sol */
+  --accent-secondary: var(--tc-copper-425); /* 7,10:1 / sol */
 
   /* Traits */
   --border-subtle: var(--tc-shade-a14); /* décoratif seul */
-  --control-border: var(--tc-mist-509); /*  4,77:1 / sol ; 3,19:1 pire cas composé */
+  /* 4,75:1 sur le sol et 4,63:1 sur le panneau — les deux supports que le contrat
+     vérifie. Le pire cas composé que ce fichier sait NOMMER est le trait sur un
+     lavis d'accent posé sur `--panel-surface-active` : 3,46:1.
+
+     Cette ligne annonçait « 3,19:1 pire cas composé » avant la v0.2.0 et le
+     chiffre n'a pas été reporté : la composition dont il venait n'est écrite
+     nulle part, et aucun test ne la rejoue, donc il n'était pas reproductible.
+     Un chiffre qu'on ne peut pas refaire n'est pas une mesure — c'est le
+     principe même de ce dépôt, appliqué à l'un de ses propres commentaires. */
+  --control-border: var(--tc-mist-509);
   --rule: var(--tc-shade-a16);
 
   /* Sémantique — la couleur double toujours un mot ET un glyphe. */
-  --danger: var(--tc-red-339); /*   10,36:1 / sol ; 11,15:1 / carte */
-  --success: var(--tc-green-378); /* 8,05:1 / sol ;  8,66:1 / carte */
-  --warning: var(--tc-amber-482); /* 5,47:1 / sol ;  5,89:1 / carte */
+  --danger: var(--tc-red-339); /*   10,31:1 / sol ; 11,11:1 / carte */
+  --success: var(--tc-green-378); /* 8,01:1 / sol ;  8,63:1 / carte */
+  --warning: var(--tc-amber-482); /* 5,45:1 / sol ;  5,87:1 / carte */
   --danger-quiet: var(--tc-red-339-a10);
   --success-quiet: var(--tc-green-378-a10);
   --warning-quiet: var(--tc-amber-482-a10);
@@ -138,7 +151,7 @@
      satisfaisables à la fois. L'anneau intérieur touche l'aplat accent,
      l'extérieur touche la page — l'extérieur ne borde jamais l'accent.
      C'est le focus qui a contraint le choix de l'accent, pas l'inverse. */
-  --focus-outer: var(--tc-black); /*     17,48:1 / sol */
+  --focus-outer: var(--tc-black); /*     17,40:1 / sol */
   --focus-inner: var(--tc-citron-985); /*  5,26:1 / aplat accent */
 
   /* Élévation — quatre crans, et une règle de polarité.

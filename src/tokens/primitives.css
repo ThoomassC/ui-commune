@@ -35,6 +35,26 @@
   --tc-mist-205: #0f191c;
   --tc-mist-188: #0c1518;
 
+  /* --- PAPER — les sols clairs, depuis la v0.2.0. Une feuille, pas un écran.
+
+         Chaque valeur est posée à la luminosité OKLab EXACTE d'un `mist` qu'elle
+         remplace en thème clair : 961, 936, 928, 894, 873. Ce n'est pas une
+         coquetterie de nommage, c'est ce qui fait que réchauffer les sols ne
+         rouvre pas toutes les décisions de contraste du socle — le contraste WCAG
+         suit la luminance, et deux couleurs de même L n'en sont jamais loin. Le
+         contrat mesure de combien exactement, et les commentaires de `roles.css`
+         portent les nouveaux chiffres.
+
+         Teintes tenues entre 82° et 86°, chroma ~0,027 : assez pour que la page
+         se lise comme du papier, assez peu pour qu'elle ne devienne pas jaune.
+         Le thème sombre n'en a pas et n'en veut pas — une feuille éclairée par
+         l'arrière n'existe pas, et les `mist` sombres restent les sols de nuit. */
+  --tc-paper-961: #fbf1de;
+  --tc-paper-936: #f2e9d6;
+  --tc-paper-928: #f0e6d4;
+  --tc-paper-894: #e5dbc7;
+  --tc-paper-873: #ded4c1;
+
   /* --- TEAL — l'encre des actions. Teinte 213° à 217°. ------------------- */
   --tc-teal-753: #78bbca;
   --tc-teal-555: #208093;
